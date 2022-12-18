@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -186,6 +186,8 @@ return [
          * Package Service Providers...
          */
         Laravel\Socialite\SocialiteServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
+        fruitcake\Cors\CorsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -211,6 +213,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
+        'L5Swagger' => L5Swagger\L5SwaggerFacade::class,
+        'Cors' => fruitcake\Cors\HandleCors::class,
     ])->toArray(),
 
 ];
