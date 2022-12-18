@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::group(['middleware' => 'web', 'prefix' => 'v1'], function () {
+Route::group(['middleware' => ['web', 'api'], 'prefix' => 'v1'], function () {
     // auth routes
     Route::group(['prefix' => 'auth', 'name' => 'auth.', 'controller' => LoginController::class], function () {
         Route::get('{provider}/callback', 'callback')->name('callback');

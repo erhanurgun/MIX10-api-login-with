@@ -5,23 +5,29 @@ namespace App\Http\Controllers\Api\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthResource;
 use App\Models\User;
 
 class LoginController extends Controller
 {
     public function createOrGetUser($providerUser)
     {
-        $user = User::where('email', $providerUser->email)->first();
-
-        if (!$user) {
-            $user = User::create([
-                'name' => $providerUser->name,
-                'email' => $providerUser->email,
-                'password' => '',
-            ]);
+        try {
+            $user = User::where('email', $providerUser->email)->first();
+            if (!$user) {
+                $user = User::create([
+                    'name' => $providerUser->name,
+                    'email' => $providerUser->email,
+                    'password' => '',
+                ]);
+            }
+            $user = User::where('email', $user->email)->first();
+            return $user;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => "Kullanıcı sorgulaması esnasında bir hata oluştu. Hata: " . $e->getMessage()
+            ], 500);
         }
-
-        return $user;
     }
 
     public function callback($provider)
@@ -29,16 +35,13 @@ class LoginController extends Controller
         if (!request()->has('code') || request()->has('denied')) {
             return redirect()->to('/api/v1/auth/' . $provider);
         }
-        // open new tab
         $providerUser = Socialite::driver($provider)->user();
         $user = $this->createOrGetUser($providerUser);
-        $token = $user->createToken()->accessToken;
-        $response = 'Bearer ' . $token;
-        Auth::login($user, true);
-
+        auth()->login($user, true);
         return response()->json([
-            'token' => $token,
-        ]);
+            'success' => 'Kullanıcı kaydı başarıyla oluşturuldu.',
+            'data' => new AuthResource($user)
+        ], 200);
     }
 
     /**
@@ -76,7 +79,9 @@ class LoginController extends Controller
     public function withGoogle()
     {
         return response()->json([
-            'url' => Socialite::driver('google')->redirect()->getTargetUrl(),
+            'success' => 'Google ile giriş yapmak için bu google_auth_url adresine istek atabilirsiniz, eğer giriş yapamazsanız lütfen alternative_url adresine istek atınız.',
+            'google_auth_url' => Socialite::driver('google')->redirect()->getTargetUrl(),
+            'alternative_url' => env('GOOGLE_OAUTH_URL')
         ], 200);
     }
 }

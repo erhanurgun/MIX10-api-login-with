@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "f643feb6-14c2-4fa1-8e4a-e8001178a8db",
+		"name": "Laravel Socials Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18545415"
+	},
+	"item": [
+		{
+			"name": "auth.google",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:8000/api/v1/auth/google/callback",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "ya29.a0AX9GBdWSj5nEKZd-md4C-XfXUgfn8fJx-aFStEws4lVssil3E97oJ7ilBhM1y3IzjBE6rszR6lzVcfgraZKjorbzYeuM0Jm5kfGalv3Xf_BbP4U0u6QgSOgQCtDi3V4Mrk8mePWdUy4nKMKmkwE5VIAK6-0gaCgYKAWASARISFQHUCsbCxErEaGFOudp_2_H8RN4f0w0163",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "scope",
+							"value": "email profile",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{GOOGLE_CLIENT_SECRET}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{GOOGLE_CLIENT_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://oauth2.googleapis.com/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://accounts.google.com/o/oauth2/auth",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/auth/google",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"google"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
